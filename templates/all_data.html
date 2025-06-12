@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Semua Kendaraan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>🚗 Detail Semua Kendaraan</h1>
+    <p><a href="/">⬅️ Kembali ke Halaman Utama</a></p>
+
+    {% if data %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        {% for key in data[0].keys() %}
+                            <th>{{ key.replace('_', ' ').title() }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                        <tr>
+                            {% for value in row.values() %}
+                                <td>{{ value if value else '-' }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="warning">⚠️ Tidak ada data kendaraan yang tersedia.</p>
+    {% endif %}
+</div>
+<p>
+    <a href="/export-all-data" class="button">⬇️ Export ke Excel</a>
+</p>
+</body>
+</html>

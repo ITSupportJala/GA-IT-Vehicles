@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cari Data Kendaraan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Cari Detail Kendaraan</h1>
+
+    <!-- Form pencarian berdasarkan plat nomor -->
+    <form action="/detail" method="POST" class="form-section">
+        <label for="plate">Pilih Plat Nomor:</label>
+        <select name="plate" id="plate" required>
+            <option value="" disabled selected>-- Pilih Plat Nomor --</option>
+            {% for plate in plate_list %}
+                <option value="{{ plate }}">{{ plate }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">🔍 Cari</button>
+    </form>
+
+    <!-- Pesan error jika ada -->
+    {% if error %}
+        <div class="error-message">
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+
+    <!-- Tampilkan detail kendaraan jika tersedia -->
+    {% if detail %}
+        <section class="detail-section">
+            <h2>Detail Kendaraan</h2>
+            <ul class="detail-list">
+                {% for key, value in detail.items() %}
+                    <li><strong>{{ key.replace('_', ' ').title() }}:</strong> {{ value if value else "-" }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    <hr>
+
+    <!-- Link ke halaman lain -->
+    <div class="link-section">
+        <p><a href="/mileage">📊 Cek Data Mileage Berdasarkan IMEI & Tanggal</a></p>
+        <p><a href="/all-data">🚗 Lihat Semua Kendaraan</a></p>
+    </div>
+</div>
+</body>
+</html>
